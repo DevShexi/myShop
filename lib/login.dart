@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'socialLogin.dart';
 
 class Login extends StatefulWidget {
@@ -44,6 +45,36 @@ _textField(
 
 class _LoginState extends State<Login> {
   final GlobalKey<FormBuilderState> _key = GlobalKey<FormBuilderState>();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  String email;
+  String password;
+  @override
+  initState() {
+    fetchUser();
+    super.initState();
+  }
+
+  fetchUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      email = prefs.getString('email');
+      password = prefs.getString('password');
+    });
+    print(prefs.toString());
+    print('UserEmail: $email');
+    print('UserPassword: $password');
+  }
+
+  _signIn(String _email, String _password) async {
+    if (email == _email && password == _password) {
+      print('Login Successful');
+      Navigator.popAndPushNamed(context, '/home');
+    } else {
+      print('Login Failed');
+      _key.currentState.reset();
+    }
+  }
+
   SocialLoginBtn facebookLoginBtn = new SocialLoginBtn(
       btnColor: Colors.white,
       icon: FontAwesomeIcons.facebook,
@@ -54,6 +85,7 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     final Color primary = Theme.of(context).primaryColor;
     return Scaffold(
+      key: _scaffoldKey,
       body: ListView(
         children: [
           Container(
@@ -134,20 +166,12 @@ class _LoginState extends State<Login> {
                               ),
                               onPressed: () {
                                 if (_key.currentState.saveAndValidate()) {
-                                  print('Login Successful');
-                                  // setState(() {
-                                  //   username = _key.currentState
-                                  //       .fields['username'].currentState.value;
-                                  //   password = _key.currentState
-                                  //       .fields['password'].currentState.value;
-                                  // });
-                                  // setState(() {
-                                  //   requestedLogin = true;
-                                  // });
-                                  // // Navigator.pushNamed(
-                                  // //     context, '/readQuran');
-
-                                  // _getAndSaveToken(); //has to be called to authenticate login
+                                  String _email, _password;
+                                  _email = _key.currentState.fields['email']
+                                      .currentState.value;
+                                  _password = _key.currentState
+                                      .fields['password'].currentState.value;
+                                  _signIn(_email, _password);
                                 }
                               },
                             ),
