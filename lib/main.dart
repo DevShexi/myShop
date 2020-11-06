@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'homeScreen.dart';
+import 'Screens/Common/homeScreen.dart';
 import 'profile.dart';
 import 'welcome.dart';
 import 'login.dart';

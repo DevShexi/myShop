@@ -76,11 +76,15 @@ class _LoginState extends State<Login> {
   }
 
   SocialLoginBtn facebookLoginBtn = new SocialLoginBtn(
-      btnColor: Colors.white,
-      icon: FontAwesomeIcons.facebook,
-      onPressed: () {});
+    btnColor: Colors.white,
+    icon: FontAwesomeIcons.facebook,
+    onPressed: () {},
+  );
   SocialLoginBtn googleLoginBtn = new SocialLoginBtn(
-      btnColor: Colors.white, icon: FontAwesomeIcons.google, onPressed: () {});
+    btnColor: Colors.white,
+    icon: FontAwesomeIcons.google,
+    onPressed: () {},
+  );
   @override
   Widget build(BuildContext context) {
     final Color primary = Theme.of(context).primaryColor;
@@ -204,22 +208,32 @@ class _LoginState extends State<Login> {
                                   Text(
                                     'Dont Have an Account?  ',
                                   ),
-                                  GestureDetector(
+                                  InkWell(
                                     onTap: () {
                                       print('User Wants to register');
                                       Navigator.popAndPushNamed(
                                           context, '/signup');
                                     },
-                                    child: Text(
-                                      'Register',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 30.0, horizontal: 8.0),
+                                      child: Text(
+                                        'Register',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
                                     ),
                                   ),
                                 ],
                               ),
-                              Text(
-                                'Terms',
+                              InkWell(
+                                onTap: () {},
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    'Terms',
+                                  ),
+                                ),
                               )
                             ],
                           ),
