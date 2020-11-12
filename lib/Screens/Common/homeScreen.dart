@@ -148,12 +148,10 @@ class _HomeState extends State<Home> {
       drawer: Drawer(
         child: ListView(
           children: [
+            
             DrawerHeader(
               decoration: BoxDecoration(
                 color: Theme.of(context).primaryColor,
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(40),
-                ),
               ),
               child: Container(
                 child: Column(
