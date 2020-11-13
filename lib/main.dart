@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'Screens/Common/homeScreen.dart';
 import 'profile.dart';
 import 'welcome.dart';
-import 'login.dart';
-import 'signup.dart';
+import 'Screens/Auth/Login/login.dart';
+import 'Screens/Auth/Signup/signup.dart';
 
 void main() {
   runApp(MyApp());

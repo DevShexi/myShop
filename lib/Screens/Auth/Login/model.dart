@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'loginBloc.dart';
 
-Map modal = {
+//This is the Model for Login Screen
+Map loginModel = {
   "fieldEntities": [
     {
+      "stream": bloc.email,
+      "onChanged": bloc.changeEmail,
       "padding": const EdgeInsets.symmetric(vertical: 5),
       "obscureText": false,
       "attribute": "email",
+      'initialValue': 'shexiakram@gmail.com',
       "decoration": {
-        "hint": "Enter Your Email",
+        "labelText": "Email",
+        "labelStyle": TextStyle(color: Colors.blueGrey[300]),
+        "hintText": "email@example.com",
         "hintStyle": TextStyle(color: Colors.blueGrey[800]),
         "enabledBorder": OutlineInputBorder(
           borderSide: BorderSide(color: Colors.blueGrey[800]),
@@ -30,11 +36,16 @@ Map modal = {
       ]
     },
     {
+      "stream": bloc.password,
+      "onChanged": bloc.changePassword,
       "padding": const EdgeInsets.symmetric(vertical: 5),
       "obscureText": true,
       "attribute": "password",
+      'initialValue': '123456',
       "decoration": {
-        "hint": "Enter Your Password",
+        "labelText": "Password",
+        "labelStyle": TextStyle(color: Colors.blueGrey[300]),
+        "hintText": "Atleast 6 characters",
         "hintStyle": TextStyle(color: Colors.blueGrey[800]),
         "enabledBorder": OutlineInputBorder(
           borderSide: BorderSide(color: Colors.blueGrey[800]),
@@ -58,7 +69,7 @@ Map modal = {
   "actions": [
     {
       "width": double.infinity,
-      "height": 55,
+      "height": 55.0,
       "raisedButton": {
         "color": Colors.blueGrey[800],
         "name": 'LOGIN',
@@ -67,18 +78,6 @@ Map modal = {
       },
     }
   ],
-  "socialActions": [
-    {
-      "name": "Facebook Login",
-      "color": Colors.blueGrey[800],
-      "icon": FontAwesomeIcons.facebook,
-    },
-    {
-      "title": "Google Login",
-      "color": Colors.blueGrey[800],
-      "icon": FontAwesomeIcons.google,
-    },
-  ],
-  "toggleMessage": "Don't have an account?",
-  "toggleTarget": 'Register',
+  "toggleText": "Don't have an account?",
+  "toggleTarget": "Register"
 };

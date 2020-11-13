@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'socialLogin.dart';
+import 'Screens/Common/socialLoginButtons.dart';
 
 class Welcome extends StatelessWidget {
   SocialLoginBtn facebookLoginBtn = new SocialLoginBtn(
@@ -11,15 +11,9 @@ class Welcome extends StatelessWidget {
       btnColor: Colors.white, icon: FontAwesomeIcons.google, onPressed: () {});
   @override
   Widget build(BuildContext context) {
-    final Color primary = Theme.of(context).primaryColor;
+    final Color primaryColor = Theme.of(context).primaryColor;
     return Scaffold(
       body: Container(
-        // decoration: BoxDecoration(
-        //   image: DecorationImage(
-        //     image: AssetImage("images/abstract.png"),
-        //     fit: BoxFit.cover,
-        //   ),
-        // ),
         child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(40.0),
@@ -30,7 +24,7 @@ class Welcome extends StatelessWidget {
                 Text(
                   'My Shop',
                   style: TextStyle(
-                    color: primary,
+                    color: primaryColor,
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
                   ),
@@ -43,7 +37,7 @@ class Welcome extends StatelessWidget {
                   children: [
                     _button(
                       'LOGIN',
-                      primary,
+                      primaryColor,
                       () {
                         print('Login Pressed');
                         Navigator.pushNamed(context, '/login');
@@ -54,7 +48,7 @@ class Welcome extends StatelessWidget {
                     ),
                     _button(
                       'SIGNUP',
-                      primary,
+                      primaryColor,
                       () {
                         print('SignUp Pressed');
                         Navigator.pushNamed(context, '/signup');
