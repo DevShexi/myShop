@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 getDrawerItems(model, context) {
   List<Widget> drawerItems = [];
   drawerItems.add(
-    drawerHeader(model['drawerHeader']),
+    drawerHeader(model['drawer']['drawerHeader']),
   );
-  model["menuItems"].forEach((entity) {
+  model['drawer']["menuItems"].forEach((entity) {
     drawerItems.add(
       menuItem(entity, context),
     );
@@ -15,10 +15,10 @@ getDrawerItems(model, context) {
 
 getEndDrawerItems(model, context) {
   List<Widget> drawerItems = [];
-  drawerItems.add(
-    drawerHeader(model['drawerHeader']),
-  );
-  model["menuItems"].forEach((entity) {
+  // drawerItems.add(
+  //   drawerHeader(model['drawer']['drawerHeader']),
+  // );
+  model['drawer']["menuItems"].forEach((entity) {
     drawerItems.add(
       menuItem(entity, context),
     );

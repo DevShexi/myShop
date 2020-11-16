@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myShop/BottomNavigationBuilder/bottomNavigationBuilder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'model.dart';
 import '../../../DrawerBuilder/drayerBuilder.dart';
@@ -144,20 +145,22 @@ class _HomeState extends State<Home> {
                 ),
               )
             : TextField(
-                //style: TextStyle(color: Colors.white),
+                style: TextStyle(color: Colors.white),
                 decoration: InputDecoration(
-                  filled: true,
+                  //filled: true,
                   isDense: true,
                   contentPadding: EdgeInsets.all(12),
-                  fillColor: Colors.grey[200],
+                  //fillColor: Colors.grey[200],
                   hintText: "Search",
-                  hintStyle: TextStyle(color: Colors.blueGrey),
+                  hintStyle: TextStyle(color: Colors.white54),
                   border: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white),
                     borderRadius: BorderRadius.all(
                       Radius.circular(50),
                     ),
                   ),
                   focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white),
                     borderRadius: BorderRadius.all(
                       Radius.circular(50),
                     ),
@@ -171,34 +174,36 @@ class _HomeState extends State<Home> {
       ),
       drawer: Drawer(
         child: ListView(
-          children: getDrawerItems(drawerModel, context),
+          children: getDrawerItems(homePageModel, context),
         ),
       ),
       endDrawer: Drawer(
         child: ListView(
-          children: getEndDrawerItems(drawerModel, context),
+          children: getEndDrawerItems(homePageModel, context),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Theme.of(context).primaryColor,
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: Colors.white,
-        selectedLabelStyle: TextStyle(
-          color: Colors.white,
-        ),
-        unselectedItemColor: Colors.blueGrey,
-        unselectedLabelStyle: TextStyle(
-          color: Colors.blueGrey,
-        ),
-        items: <BottomNavigationBarItem>[
-          navItem(Icons.dashboard, Icons.dashboard, 'Dashboard'),
-          navItem(Icons.message, Icons.message, 'Messages'),
-          navItem(Icons.attach_money, Icons.attach_money, 'Accounts'),
-          navItem(Icons.settings, Icons.settings, 'Settings'),
-        ],
-        currentIndex: _selectedindex,
-        onTap: onItemTap,
-      ),
+      bottomNavigationBar:
+          getBottomNavigation(homePageModel["bottomNav"], _selectedindex, onItemTap),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   backgroundColor: Theme.of(context).primaryColor,
+      //   type: BottomNavigationBarType.fixed,
+      //   selectedItemColor: Colors.white,
+      //   selectedLabelStyle: TextStyle(
+      //     color: Colors.white,
+      //   ),
+      //   unselectedItemColor: Colors.blueGrey,
+      //   unselectedLabelStyle: TextStyle(
+      //     color: Colors.blueGrey,
+      //   ),
+      //   items: <BottomNavigationBarItem>[
+      //     navItem(Icons.dashboard, Icons.dashboard, 'Dashboard'),
+      //     navItem(Icons.message, Icons.message, 'Messages'),
+      //     navItem(Icons.attach_money, Icons.attach_money, 'Accounts'),
+      //     navItem(Icons.settings, Icons.settings, 'Settings'),
+      //   ],
+      //   currentIndex: _selectedindex,
+      //   onTap: onItemTap,
+      // ),
     );
   }
 }
