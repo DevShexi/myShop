@@ -75,6 +75,22 @@ class Welcome extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: 24),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/home');
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'SKIP',
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               ],
             ),
           ),

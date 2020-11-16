@@ -1,18 +1,30 @@
 import 'package:flutter/material.dart';
 
-getDrawer() {
+getDrawerItems(model, context) {
   List<Widget> drawerItems = [];
+  drawerItems.add(
+    drawerHeader(model['drawerHeader']),
+  );
+  model["menuItems"].forEach((entity) {
+    drawerItems.add(
+      menuItem(entity, context),
+    );
+  });
+  return drawerItems;
 }
 
-Map drawer = {
-  "attributes": {},
-  "drawerHeader": {
-    "headercolor": Colors.blueGrey[800],
-    "headerIcon": Icons.check,
-    "name": "Shahzad",
-    "email": "shahzad@tanbits.com"
-  }
-};
+getEndDrawerItems(model, context) {
+  List<Widget> drawerItems = [];
+  drawerItems.add(
+    drawerHeader(model['drawerHeader']),
+  );
+  model["menuItems"].forEach((entity) {
+    drawerItems.add(
+      menuItem(entity, context),
+    );
+  });
+  return drawerItems;
+}
 
 drawerHeader(entity) {
   return DrawerHeader(
@@ -37,6 +49,23 @@ drawerHeader(entity) {
           ),
         ],
       ),
+    ),
+  );
+}
+
+menuItem(entity, context) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 2.0),
+    child: ListTile(
+      trailing: Icon(entity['trailingIcon']),
+      leading: Icon(entity['leadingIcon']),
+      title: Text(
+        entity['title'],
+        style: entity['titleStyle'],
+      ),
+      onTap: () {
+        Navigator.pop(context);
+      },
     ),
   );
 }

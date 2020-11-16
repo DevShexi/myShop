@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'model.dart';
+import '../../../DrawerBuilder/drayerBuilder.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -7,6 +9,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  bool search = false;
   @override
   initState() {
     fetchUser();
@@ -61,28 +64,6 @@ class _HomeState extends State<Home> {
     });
   }
 
-  menuItem(String menuName, IconData icon, Function func) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 2),
-      child: ListTile(
-        //tileColor: kLight,
-        trailing: Icon(
-          icon,
-          // color: kGrey,
-        ),
-        title: Text(
-          '$menuName',
-          style: TextStyle(
-              //  color: kGrey,
-              ),
-        ),
-        onTap: () {
-          func();
-        },
-      ),
-    );
-  }
-
   onLogout() {
     return showDialog(
       context: context,
@@ -132,14 +113,57 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          '$title',
-          style: TextStyle(
-            color: Colors.white,
-            //fontWeight: FontWeight.bold,
+        automaticallyImplyLeading: search ? false : true,
+        actions: [
+          IconButton(
+            onPressed: () {
+              setState(() {
+                search = !search;
+              });
+            },
+            icon: !search ? Icon(Icons.search) : Icon(Icons.close),
           ),
-        ),
+          search == false
+              ? Builder(
+                  builder: (context) => IconButton(
+                    icon: Icon(Icons.more_vert),
+                    onPressed: () => Scaffold.of(context).openEndDrawer(),
+                    tooltip:
+                        MaterialLocalizations.of(context).openAppDrawerTooltip,
+                  ),
+                )
+              : SizedBox(),
+        ],
+        centerTitle: true,
+        title: search == false
+            ? Text(
+                '$title',
+                style: TextStyle(
+                  color: Colors.white,
+                  //fontWeight: FontWeight.bold,
+                ),
+              )
+            : TextField(
+                //style: TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                  filled: true,
+                  isDense: true,
+                  contentPadding: EdgeInsets.all(12),
+                  fillColor: Colors.grey[200],
+                  hintText: "Search",
+                  hintStyle: TextStyle(color: Colors.blueGrey),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(50),
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(50),
+                    ),
+                  ),
+                ),
+              ),
         iconTheme: new IconThemeData(color: Colors.white),
       ),
       body: Center(
@@ -147,58 +171,12 @@ class _HomeState extends State<Home> {
       ),
       drawer: Drawer(
         child: ListView(
-          children: [
-            
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-              ),
-              child: Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Icon(
-                      Icons.account_circle_rounded,
-                      color: Colors.white,
-                      size: 80,
-                    ),
-                    Text(
-                      '$userName'.toUpperCase(),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w900),
-                    ),
-                  ],
-                ),
-              ),
-              //decoration: BoxDecoration(color: kTeal),
-            ),
-            menuItem('Profile', Icons.account_box, () {
-              Navigator.pushNamed(context, '/profile');
-            }),
-            menuItem('Products', Icons.account_box, () {
-              Navigator.pop(context);
-            }),
-            menuItem('Categories', Icons.account_box, () {
-              Navigator.pop(context);
-            }),
-            menuItem('Promotions', Icons.account_box, () {
-              Navigator.pop(context);
-            }),
-            menuItem('Accounts', Icons.account_box, () {
-              Navigator.pop(context);
-            }),
-            menuItem('Shops', Icons.account_box, () {
-              Navigator.pop(context);
-            }),
-            menuItem('Services', Icons.account_box, () {
-              Navigator.pop(context);
-            }),
-            menuItem('Logout', Icons.exit_to_app, onLogout),
-          ],
+          children: getDrawerItems(drawerModel, context),
+        ),
+      ),
+      endDrawer: Drawer(
+        child: ListView(
+          children: getEndDrawerItems(drawerModel, context),
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(

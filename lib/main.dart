@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'Screens/Common/homeScreen.dart';
+import 'Screens/Common/Home/homeScreen.dart';
 import 'profile.dart';
 import 'welcome.dart';
 import 'Screens/Auth/Login/login.dart';
@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
         '/': (context) => Welcome(),
