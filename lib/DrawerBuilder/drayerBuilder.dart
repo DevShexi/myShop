@@ -14,16 +14,29 @@ getDrawerItems(model, context) {
 }
 
 getEndDrawerItems(model, context) {
-  List<Widget> drawerItems = [];
-  // drawerItems.add(
-  //   drawerHeader(model['drawer']['drawerHeader']),
-  // );
+  List<Widget> endDrawerItems = [];
+  endDrawerItems.add(
+    endDrawerHeader(model['drawer']['drawerHeader']),
+  );
+  endDrawerItems.add(Divider(
+    height: 3,
+    color: Colors.blueGrey[800],
+  ));
   model['drawer']["menuItems"].forEach((entity) {
-    drawerItems.add(
+    endDrawerItems.add(
       menuItem(entity, context),
     );
   });
-  return drawerItems;
+  endDrawerItems.add(Divider(
+    height: 3,
+    color: Colors.blueGrey[800],
+  ));
+  model['drawer']["menuItems"].forEach((entity) {
+    endDrawerItems.add(
+      menuItem(entity, context),
+    );
+  });
+  return endDrawerItems;
 }
 
 drawerHeader(entity) {
@@ -66,6 +79,51 @@ menuItem(entity, context) {
       onTap: () {
         Navigator.pop(context);
       },
+    ),
+  );
+}
+
+endDrawerHeader(entity) {
+  return DrawerHeader(
+    padding: EdgeInsets.all(8.0),
+    decoration: BoxDecoration(
+        // color: entity['headercolor'],
+        ),
+    child: Container(
+      // color: Colors.amber[200],
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Icon(
+            Icons.account_circle,
+            color: Colors.blueGrey[800],
+            size: 80,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  'Welcome'.toUpperCase(),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    color: Colors.blueGrey[800],
+                  ),
+                ),
+                Text(
+                  '17 November, 2020',
+                  style: TextStyle(
+                    color: Colors.blueGrey[800],
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
     ),
   );
 }

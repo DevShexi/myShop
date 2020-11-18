@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'Screens/Common/Home/homeScreen.dart';
 import 'profile.dart';
 import 'welcome.dart';
+import 'products.dart';
 import 'Screens/Auth/Login/login.dart';
 import 'Screens/Auth/Signup/signup.dart';
 
@@ -26,6 +27,8 @@ class MyApp extends StatelessWidget {
         '/home': (context) => Home(),
         '/login': (context) => Login(),
         '/signup': (context) => Signup(),
+        '/products': (context) => Products(),
+        '/promotions': (context) => Signup(),
       },
       theme: ThemeData.from(
         colorScheme: ColorScheme(
@@ -47,27 +50,6 @@ class MyApp extends StatelessWidget {
           cursorColor: primary,
           highlightColor: secondary,
           toggleableActiveColor: primary),
-      //home: MyHomePage(title: 'myShop'),
     );
   }
 }
-
-// class MyHomePage extends StatefulWidget {
-//   MyHomePage({Key key, this.title}) : super(key: key);
-//   final String title;
-//   @override
-//   _MyHomePageState createState() => _MyHomePageState();
-// }
-
-// class _MyHomePageState extends State<MyHomePage> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       // appBar: AppBar(
-//       //   centerTitle: true,
-//       //   title: Text(widget.title),
-//       // ),
-//       body: Home(),
-//     );
-//   }
-// }

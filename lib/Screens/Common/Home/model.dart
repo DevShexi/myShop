@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 //Homapage Model contains model data for Side Drawer, End Drawer, Bottom Navigation, Tabs etc
-Map homePageModel = {
+Map commonModel = {
   "drawer": {
     "attributes": {},
     "drawerHeader": {
@@ -88,4 +88,18 @@ Map homePageModel = {
       }
     ]
   },
+  "tabs": [
+    Tab(
+      icon: Icon(Icons.attach_money),
+    ),
+    Tab(
+      icon: Icon(Icons.shopping_cart),
+    ),
+    Tab(
+      icon: Icon(Icons.list_alt),
+    ),
+    Tab(
+      icon: Icon(Icons.history),
+    ),
+  ],
 };

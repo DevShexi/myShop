@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:myShop/BottomNavigationBuilder/bottomNavigationBuilder.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'model.dart';
+import 'bottomDrawer.dart';
 import '../../../DrawerBuilder/drayerBuilder.dart';
+import '../../../TabsBuilder/tabsBuilder.dart';
+import '../../../PopupMenuBuilder/popupMenuBuilder.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -11,29 +13,19 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   bool search = false;
-  @override
-  initState() {
-    fetchUser();
-    super.initState();
-  }
-
-  fetchUser() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      userName = prefs.getString('username');
-    });
-  }
-
+  bool bottomDrawer = false;
   String userName;
   String title = 'Dashboard';
   static int _selectedindex = 0;
   List<Widget> options = <Widget>[
-    Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: Text('Dash Board'),
-        ),
-      ),
+    getTabBar(
+      commonModel,
+      [
+        Icon(Icons.attach_money),
+        Icon(Icons.shopping_cart),
+        Icon(Icons.list_alt),
+        Icon(Icons.history),
+      ],
     ),
     Scaffold(
       body: SafeArea(
@@ -97,113 +89,91 @@ class _HomeState extends State<Home> {
     );
   }
 
-  navItem(IconData icon, IconData activeIcon, String label) {
-    return BottomNavigationBarItem(
-      icon: Icon(
-        icon,
-        //color: Colors.grey,
-      ),
-      activeIcon: Icon(
-        activeIcon,
-      ),
-      label: label,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: search ? false : true,
-        actions: [
-          IconButton(
-            onPressed: () {
-              setState(() {
-                search = !search;
-              });
-            },
-            icon: !search ? Icon(Icons.search) : Icon(Icons.close),
-          ),
-          search == false
-              ? Builder(
-                  builder: (context) => IconButton(
-                    icon: Icon(Icons.more_vert),
-                    onPressed: () => Scaffold.of(context).openEndDrawer(),
-                    tooltip:
-                        MaterialLocalizations.of(context).openAppDrawerTooltip,
+    return SafeArea(
+      child: GestureDetector(
+        onPanEnd: (details) {
+          if (details.velocity.pixelsPerSecond.dy > 100) {
+            setState(() {
+              bottomDrawer = false;
+            });
+          } else if (details.velocity.pixelsPerSecond.dy < -100) {
+            setState(() {
+              bottomDrawer = true;
+            });
+          }
+        },
+        child: Stack(
+          children: [
+            Scaffold(
+              appBar: AppBar(
+                automaticallyImplyLeading: search ? false : true,
+                actions: [
+                  IconButton(
+                    onPressed: () {
+                      setState(() {
+                        search = !search;
+                      });
+                    },
+                    icon: !search ? Icon(Icons.search) : Icon(Icons.close),
                   ),
-                )
-              : SizedBox(),
-        ],
-        centerTitle: true,
-        title: search == false
-            ? Text(
-                '$title',
-                style: TextStyle(
-                  color: Colors.white,
-                  //fontWeight: FontWeight.bold,
-                ),
-              )
-            : TextField(
-                style: TextStyle(color: Colors.white),
-                decoration: InputDecoration(
-                  //filled: true,
-                  isDense: true,
-                  contentPadding: EdgeInsets.all(12),
-                  //fillColor: Colors.grey[200],
-                  hintText: "Search",
-                  hintStyle: TextStyle(color: Colors.white54),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(50),
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(50),
-                    ),
-                  ),
+                  search == false ? getPopupManuButton() : SizedBox(),
+                ],
+                centerTitle: true,
+                title: search == false
+                    ? Text(
+                        '$title',
+                        style: TextStyle(
+                          color: Colors.white,
+                          //fontWeight: FontWeight.bold,
+                        ),
+                      )
+                    : TextField(
+                        style: TextStyle(color: Colors.white),
+                        decoration: InputDecoration(
+                          //filled: true,
+                          isDense: true,
+                          contentPadding: EdgeInsets.all(12),
+                          //fillColor: Colors.grey[200],
+                          hintText: "Search",
+                          hintStyle: TextStyle(color: Colors.white54),
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(50),
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(50),
+                            ),
+                          ),
+                        ),
+                      ),
+                iconTheme: new IconThemeData(color: Colors.white),
+              ),
+              body: Center(
+                child: options.elementAt(_selectedindex),
+              ),
+              drawer: Drawer(
+                child: ListView(
+                  children: getDrawerItems(commonModel, context),
                 ),
               ),
-        iconTheme: new IconThemeData(color: Colors.white),
-      ),
-      body: Center(
-        child: options.elementAt(_selectedindex),
-      ),
-      drawer: Drawer(
-        child: ListView(
-          children: getDrawerItems(homePageModel, context),
+              endDrawer: Drawer(
+                child: ListView(
+                  children: getEndDrawerItems(commonModel, context),
+                ),
+              ),
+              bottomNavigationBar: getBottomNavigation(
+                  commonModel["bottomNav"], _selectedindex, onItemTap),
+            ),
+            getBottomDrawer(bottomDrawer, context)
+          ],
         ),
       ),
-      endDrawer: Drawer(
-        child: ListView(
-          children: getEndDrawerItems(homePageModel, context),
-        ),
-      ),
-      bottomNavigationBar:
-          getBottomNavigation(homePageModel["bottomNav"], _selectedindex, onItemTap),
-      // bottomNavigationBar: BottomNavigationBar(
-      //   backgroundColor: Theme.of(context).primaryColor,
-      //   type: BottomNavigationBarType.fixed,
-      //   selectedItemColor: Colors.white,
-      //   selectedLabelStyle: TextStyle(
-      //     color: Colors.white,
-      //   ),
-      //   unselectedItemColor: Colors.blueGrey,
-      //   unselectedLabelStyle: TextStyle(
-      //     color: Colors.blueGrey,
-      //   ),
-      //   items: <BottomNavigationBarItem>[
-      //     navItem(Icons.dashboard, Icons.dashboard, 'Dashboard'),
-      //     navItem(Icons.message, Icons.message, 'Messages'),
-      //     navItem(Icons.attach_money, Icons.attach_money, 'Accounts'),
-      //     navItem(Icons.settings, Icons.settings, 'Settings'),
-      //   ],
-      //   currentIndex: _selectedindex,
-      //   onTap: onItemTap,
-      // ),
     );
   }
 }
