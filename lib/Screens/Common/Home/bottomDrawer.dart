@@ -9,12 +9,12 @@ getBottomDrawer(bool drawerEnabled, context) {
       borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
       child: Container(
         width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        color: Colors.amber,
+        height: MediaQuery.of(context).size.height / 2,
+        color: Colors.grey[300],
         child: Column(
           children: [
             SizedBox(
-              height: 50,
+              height: 15,
             ),
             Icon(
               Icons.keyboard_arrow_down,
